@@ -26,8 +26,3 @@ after_script:
 - sudo docker push ${DOCKER_HUB_ORG}/${DOCKER_IMAGE_NAME}:latest
 - ssh-keyscan -H $SSH_IP >> ~/.ssh/known_hosts
 - ssh -v -i deploy_rsa $SSH_USER@$SSH_IP DIR=$ROOT_DIR 'bash -s' < deploy.sh
-before_install:
-- openssl aes-256-cbc -K $encrypted_8ed79ef37533_key -iv $encrypted_8ed79ef37533_iv
-  -in deploy_rsa.enc -out deploy_rsa -d
-
-  #test
