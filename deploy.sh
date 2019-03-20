@@ -1,7 +1,7 @@
 #!/bin/bash
 
 eval "$(ssh-agent -s)" &&
-ssh-add -k ~/.ssh/id-rsa &&
+ssh-add -k ~/.ssh/id_rsa &&
 cd /home/ubuntu/portofolio/API-Deployment
 git pull
 
