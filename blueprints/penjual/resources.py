@@ -1,4 +1,4 @@
-import json, logging
+import json, logging, hashlib
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse, marshal
 from . import *
@@ -18,7 +18,6 @@ class PenjualResource(Resource):
         parse.add_argument('username', location='args', required=True)
         parse.add_argument('password', location='args',  required=True)
         parse.add_argument('contact', type=int, location='args', required=True)
-        parse.add_argument('status', type=int, location='args', default='penjual')        
         parse.add_argument('email', location='args', required=True)
         parse.add_argument('address', location='args', required=True)
         parse.add_argument('foto_profil', location='args')
@@ -28,47 +27,50 @@ class PenjualResource(Resource):
 
         qry = Penjual.query.filter_by(username = args['username']).first()
         if qry is not None:
-            return {'message': 'USERNAME_ALREADY_IN_USE'}
+            return {'status':'Not Acceptable', 'message': 'USERNAME_ALREADY_IN_USE'}, 406, {'Content-Type': 'application/json'}
+        
+        password = hashlib.md5(args['password'].encode()).hexdigest()
 
-        penjual_baru = Penjual(None, args['username'], args['password'], args['contact'], args['status'], args['email'], args['address'], args['foto_profil'], args['deskripsi_penjual'])
-        db.session.add(penjual_baru)
+        penjualBaru = Penjual(None, args['username'], password, args['contact'], 'penjual', args['email'], args['address'], args['foto_profil'], args['deskripsi_penjual'])
+        db.session.add(penjualBaru)
         db.session.commit()
 
-        return {"message": "SUCCESS"}, 200, {'Content-Type': 'application/json'}
+        penjualBaru = marshal(penjualBaru, Penjual.response_penjual)
+
+        return {"status": "Created", "message": "Your account has been created", "input": penjualBaru}, 201, {'Content-Type': 'application/json'}
 
     # Penjual melihat profilnya sendiri
     @jwt_required
-    def get(self):#, usernamePenjual):
+    def get(self):
         penjual = get_jwt_claims()
         
-        # if usernamePenjual != penjual['username']:
-        #     return {'message': "ACCESS_DENIED"}, 404, {'Content-Type': 'application/json'}
-
-        # else:
         qry = Penjual.query.get(penjual['id'])
+        if qry == None:
+            return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
+
         result = marshal(qry, Penjual.response_penjual)
-        return result, 200, {'Content-Type': 'application/json'}
+        return {"status":"OK", "message":"Get Seller Account", "seller": result}, 200, {'Content-Type': 'application/json'}
 
     # Penjual Mengubah Akunnya Sendiri
     @jwt_required
-    def put(self):#, usernamePenjual):
+    def put(self):
         penjual = get_jwt_claims()
         
         qry = Penjual.query.get(penjual['id'])
+        
+        if qry == None:
+            return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
+        
         data_penjual = marshal(qry, Penjual.response_field)
 
-        # if usernamePenjual != penjual['username']:
-        #     return {'message': "ACCESS_DENIED"}, 404, {'Content-Type': 'application/json'}
-
-        # else:
         parse =reqparse.RequestParser()
-        parse.add_argument('username', location='json', default = data_penjual['username'])
-        parse.add_argument('password', location='json', default = data_penjual['password'])
-        parse.add_argument('contact', location='json', default = data_penjual['contact'])
-        parse.add_argument('email', location='json', default = data_penjual['email'])
-        parse.add_argument('address', location='json', default = data_penjual['address'])
-        parse.add_argument('foto_profil', location='json', default = data_penjual['foto_profil'])
-        parse.add_argument('deskripsi_penjual', location='json', default = data_penjual['deskripsi_penjual'])
+        parse.add_argument('username', location='args', default = data_penjual['username'])
+        parse.add_argument('password', location='args', default = data_penjual['password'])
+        parse.add_argument('contact', location='args', default = data_penjual['contact'])
+        parse.add_argument('email', location='args', default = data_penjual['email'])
+        parse.add_argument('address', location='args', default = data_penjual['address'])
+        parse.add_argument('foto_profil', location='args', default = data_penjual['foto_profil'])
+        parse.add_argument('deskripsi_penjual', location='args', default = data_penjual['deskripsi_penjual'])
 
         args = parse.parse_args()
 
@@ -81,52 +83,51 @@ class PenjualResource(Resource):
         qry.deskripsi_penjual = args['deskripsi_penjual']
         db.session.commit()
 
-        return {'message': 'DATA_UPDATED', 'input': marshal(qry, Penjual.response_field)}, 200, {'Content-Type': 'application/json'}
+        return {'status':'Accepted', 'message': 'DATA_UPDATED', 'seller': marshal(qry, Penjual.response_penjual)}, 202, {'Content-Type': 'application/json'}
 
     # Peenjual Menghapus Akunnya Sendiri
     @jwt_required
-    def delete(self):#, usernamePenjual):
+    def delete(self):
         penjual = get_jwt_claims()
         qry = Penjual.query.get(penjual['id'])
 
+        if qry == None:
+            return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
+
+        data_penjual = marshal(qry, Penjual.response_penjual)
+
         db.session.delete(qry)
         db.session.commit()
-        return {'message': 'DATA_DELETED'}, 200, {'Content-Type': 'application/json'}
+        return {'status':'OK', 'message': 'DATA_DELETED', 'seller': data_penjual}, 200, {'Content-Type': 'application/json'}
 
 
-api.add_resource(PenjualResource, '/penjual/profile')#, '/penjual/<str:usernamePenjual>')
-
+api.add_resource(PenjualResource, '/penjual')
 
 ######################## PUBLIC MELIHAT PROFIL PENJUAL ########################
 class PublicPenjual(Resource):
     
-    def get(self, usernamePenjual=None):
-        if usernamePenjual == None:
+    def get(self, idPenjual=None):
+        if idPenjual == None:
             parse = reqparse.RequestParser()
             parse.add_argument('p', type=int, location='args', default=1)
             parse.add_argument('rp', type=int, location='args', default=10)
-            parse.add_argument('penjual', location='args')
             args = parse.parse_args()
 
             offset = (args['p'] * args['rp']) - args['rp']
 
             qry_penjual = Penjual.query
-            if args['penjual'] is not None:
-                qry_penjual = qry_penjual.filter(Penjual.username.like("%"+args['penjual']+"%"))
-                if qry_penjual.first() is None:
-                    return {'status': 'NOT_FOUND','message':'item not found'},404, { 'Content-Type': 'application/json' }
-
-
-            rows = [{'halaman': args['p']}]
+           
+            rows = []
             for row in qry_penjual.limit(args['rp']).offset(offset).all():
                 rows.append(marshal(row, Penjual.response_penjual))
-            return rows, 200, {'Content-Type': 'application/json'}
+            return {'status':'OK', 'message':'Get all sellers', 'page': args['p'], 'sellers': rows}, 200, {'Content-Type': 'application/json'}
         
         else:
-            qry_penjual = Penjual.query.filter_by(username = usernamePenjual).first()
+            qry_penjual = Penjual.query.filter_by(id = idPenjual).first()
             if qry_penjual is not None:
-                return marshal(qry_penjual, Penjual.response_penjual), 200, {'Content-Type': 'application/json'}
-            else:
-                return {'status': 'NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
+                return {'status':'OK', 'message':'Get a seller', 'seller': marshal(qry, Penjual.response_penjual)}, 200, {'Content-Type': 'application/jason'}
 
-api.add_resource(PublicPenjual, '/public/penjual', '/public/penjual/<usernamePenjual>')#, '/penjual/<str:usernamePenjual>')
+            else:
+                return {'status':'Not Found!', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
+
+api.add_resource(PublicPenjual, '/public/penjual', '/public/penjual/<int:idPenjual>')#, '/penjual/<str:usernamePenjual>')

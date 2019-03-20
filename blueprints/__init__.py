@@ -11,8 +11,8 @@ from datetime import timedelta
 app = Flask(__name__)
 
 app.config['APP_DEBUG'] = True
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:diar0403@localhost:3306/rest_svc'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:diar0403@localhost:3306/ecommerce'
+#IP SERVER AWS
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://diar:diar0403@172.31.34.65:3306/ecommerce'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['JWT_SECRET_KEY'] = 'NSniSjOIJoijSIjaosJOas'

@@ -11,7 +11,10 @@ class Cart(db.Model):
     namaProduk = db.Column(db.String(255), nullable=False)
     qty = db.Column(db.Integer, nullable=False)
     totalHarga = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String(10), nullable=False)
+    idTransaction = db.Column(db.Integer, nullable=False)
     
+
     response_field = {
         'id': fields.Integer,
         'pembeli_id': fields.Integer,
@@ -19,17 +22,21 @@ class Cart(db.Model):
         'produk_id': fields.Integer,
         'namaProduk': fields.String,
         'qty': fields.Integer,
-        'totalHarga': fields.Integer
+        'totalHarga': fields.Integer,
+        'status': fields.String,
+        'idTransaction': fields.Integer
     }
 
     response_cart = {
         'namaPembeli': fields.String,
         'namaProduk': fields.String,
         'qty': fields.Integer,
-        'totalHarga': fields.Integer
+        'totalHarga': fields.Integer,
+        'status': fields.String,
+        'idTransaction': fields.Integer
     }
 
-    def __init__(self, id, pembeli_id, namaPembeli, produk_id, namaProduk, qty, totalHarga):
+    def __init__(self, id, pembeli_id, namaPembeli, produk_id, namaProduk, qty, totalHarga, status, idTransaction):
         self.id = id
         self.pembeli_id = pembeli_id
         self.namaPembeli = namaPembeli
@@ -37,6 +44,8 @@ class Cart(db.Model):
         self.namaProduk = namaProduk
         self.qty = qty
         self.totalHarga = totalHarga
+        self.status = status
+        self.idTransaction = idTransaction
         
     
     def __repr__(self): # return dari repr harus string

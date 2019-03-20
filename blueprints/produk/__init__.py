@@ -8,6 +8,7 @@ class Produk(db.Model):
     penjual_id = db.Column(db.Integer, nullable=False)
     penjual = db.Column(db.String(255), nullable=False)
     namaProduk = db.Column(db.String(255), nullable=False)
+    qty = db.Column(db.Integer, nullable=False)
     harga = db.Column(db.Integer, nullable=False)
     kategori = db.Column(db.String(50), nullable=False)
     foto_produk = db.Column(db.String(500), nullable=False)
@@ -19,6 +20,7 @@ class Produk(db.Model):
         'penjual_id': fields.Integer,
         'penjual': fields.String,
         'namaProduk': fields.String,
+        'qty': fields.Integer,
         'harga': fields.Integer,
         'kategori': fields.String,
         'foto_produk': fields.String,
@@ -28,17 +30,19 @@ class Produk(db.Model):
     response_public = {
         'penjual': fields.String,
         'namaProduk': fields.String,
+        'qty': fields.Integer,
         'harga': fields.Integer,
         'kategori': fields.String,
         'foto_produk': fields.String,
         'deskripsi_produk': fields.String
     }
 
-    def __init__(self, id, penjual_id, penjual, namaProduk, harga, kategori, foto_produk, deskripsi_produk):
+    def __init__(self, id, penjual_id, penjual, namaProduk, qty, harga, kategori, foto_produk, deskripsi_produk):
         self.id = id
         self.penjual_id = penjual_id
         self.penjual = penjual
         self.namaProduk = namaProduk
+        self.qty = qty
         self.harga = harga
         self.kategori = kategori
         self.foto_produk = foto_produk

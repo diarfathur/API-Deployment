@@ -1,4 +1,4 @@
-import json, logging
+import json, logging, hashlib
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse, marshal
 from . import *
@@ -17,14 +17,21 @@ class LoginPenjual(Resource):
         parser.add_argument('password', location = 'args', required = True)
         args = parser.parse_args()
 
-        qry = Penjual.query.filter_by(username = args['username']).filter_by(password = args['password']).first()
+        password = hashlib.md5(args['password'].encode()).hexdigest()
+
+        qry = Penjual.query.filter_by(username = args['username']).filter_by(password = password).first()
 
 
         if qry is not None:
             token = create_access_token(identity = marshal(qry, Penjual.response_token))
         else:
             return {'status': 'UNAUTORIZED', 'message': 'Invalid username or password'}, 401
-        return {'token' : token}, 200
+        return {'status': 'Success', 'message': 'You got authorization for your account', 'token' : token}, 200, {'Content-Type': 'application/json'}
+
+api.add_resource(LoginPenjual, '/login/penjual')
+
+
+
 
 class LoginPembeli(Resource):
     def get(self):
@@ -33,14 +40,14 @@ class LoginPembeli(Resource):
         parser.add_argument('password', location = 'args', required = True)
         args = parser.parse_args()
 
-        qry = Pembeli.query.filter_by(username = args['username']).filter_by(password = args['password']).first()
+        password = hashlib.md5(args['password'].encode()).hexdigest()
+        qry = Pembeli.query.filter_by(username = args['username']).filter_by(password = password).first()
 
 
         if qry is not None:
             token = create_access_token(identity = marshal(qry, Pembeli.response_token))
         else:
             return {'status': 'UNAUTORIZED', 'message': 'Invalid username or password'}, 401
-        return {'token' : token}, 200
+        return {'status': 'Success', 'message': 'You got authorization for your account', 'token' : token}, 200, {'Content-Type': 'application/json'}
 
-api.add_resource(LoginPenjual, '/login/penjual')
 api.add_resource(LoginPembeli, '/login/pembeli')
