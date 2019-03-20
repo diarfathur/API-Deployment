@@ -1,0 +1,99 @@
+[2019-02-19 10:21:41,344]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": [{"id": 1, "title": "Mentari di Wajahmu", "isbn": "1-2345-6789", "penulis": "Gen Java"}, {"id": 2, "title": "Ufuk Barat", "isbn": "1-2345-6789", "penulis": "Mal"}]}
+[2019-02-19 10:22:43,857]{appbook.py:29} WARNING - REQUEST_LOG	{"request": {"id": 3, "title": "Timur Timur", "isbn": "1-2345-6789", "penulis": "Kimi"}, "response": {"id": 3, "title": "Timur Timur", "isbn": "1-2345-6789", "penulis": "Kimi"}}
+[2019-02-19 10:25:14,037]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {"id": "4"}, "response": [{"id": 1, "title": "Mentari di Wajahmu", "isbn": "1-2345-6789", "penulis": "Gen Java"}, {"id": 2, "title": "Ufuk Barat", "isbn": "1-2345-6789", "penulis": "Mal"}, {"id": 3, "title": "Timur Timur", "isbn": "1-2345-6789", "penulis": "Kimi"}]}
+[2019-02-19 10:27:41,890]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again."}}
+[2019-02-19 10:30:32,238]{appbook.py:29} WARNING - REQUEST_LOG	{"request": {"id": 5, "title": "Timur Timur", "isbn": "1-2345-6789", "penulis": "Kimi"}, "response": {"id": 5, "title": "Timur Timur", "isbn": "1-2345-6789", "penulis": "Kimi"}}
+[2019-02-19 10:31:38,489]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /books [POST]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 458, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/views.py", line 88, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 573, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "appbook.py", line 106, in post
+    BOOKS.append(new_books)
+NameError: name 'new_books' is not defined
+[2019-02-19 10:31:38,493]{appbook.py:29} WARNING - REQUEST_LOG	{"request": {"id": 5, "title": "Timur Timur", "isbn": "1-2345-6789", "penulis": "Kimi"}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 10:33:31,826]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /books [POST]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 458, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/views.py", line 88, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 573, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "appbook.py", line 106, in post
+    BOOKS.append(new_books)
+NameError: name 'new_books' is not defined
+[2019-02-19 10:33:31,827]{appbook.py:29} WARNING - REQUEST_LOG	{"request": {"id": 7, "title": "Timue", "isbn": "1-2345-6789", "penulis": "Om"}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 10:33:58,473]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /books [POST]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 458, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/views.py", line 88, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 573, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "appbook.py", line 106, in post
+    BOOKS.append(new_books)
+NameError: name 'new_books' is not defined
+[2019-02-19 10:33:58,475]{appbook.py:29} WARNING - REQUEST_LOG	{"request": {"id": 7, "title": "Timue", "isbn": "1-2345-6789", "penulis": "Om"}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 10:34:29,968]{appbook.py:29} WARNING - REQUEST_LOG	{"request": {"id": 7, "title": "Timue", "isbn": "1-2345-6789", "penulis": "Om"}, "response": {"id": 7, "title": "Timue", "isbn": "1-2345-6789", "penulis": "Om"}}
+[2019-02-19 15:42:11,570]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /buku [GET]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 462, in wrapper
+    return self.make_response(data, code, headers=headers)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 491, in make_response
+    resp = self.representations[mediatype](data, *args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/representations/json.py", line 21, in output_json
+    dumped = dumps(data, **settings) + "\n"
+  File "/usr/lib/python3.6/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.6/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.6/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.6/json/encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'method' is not JSON serializable
+[2019-02-19 15:42:11,573]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 15:42:39,508]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again."}}
+[2019-02-19 15:42:46,732]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /buku [GET]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 462, in wrapper
+    return self.make_response(data, code, headers=headers)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 491, in make_response
+    resp = self.representations[mediatype](data, *args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/representations/json.py", line 21, in output_json
+    dumped = dumps(data, **settings) + "\n"
+  File "/usr/lib/python3.6/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.6/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.6/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.6/json/encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'method' is not JSON serializable
+[2019-02-19 15:42:46,733]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "Internal Server Error"}}

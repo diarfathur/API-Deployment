@@ -1,0 +1,100 @@
+[2019-02-19 15:44:31,538]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again."}}
+[2019-02-19 15:44:39,861]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /buku/1 [GET]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 458, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/views.py", line 88, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 573, in dispatch_request
+    resp = meth(*args, **kwargs)
+TypeError: get() got an unexpected keyword argument 'id'
+[2019-02-19 15:44:39,862]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 15:46:33,123]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /buku [GET]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 462, in wrapper
+    return self.make_response(data, code, headers=headers)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 491, in make_response
+    resp = self.representations[mediatype](data, *args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/representations/json.py", line 21, in output_json
+    dumped = dumps(data, **settings) + "\n"
+  File "/usr/lib/python3.6/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.6/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.6/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.6/json/encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'method' is not JSON serializable
+[2019-02-19 15:46:33,125]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 15:49:18,588]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /buku [GET]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 462, in wrapper
+    return self.make_response(data, code, headers=headers)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 491, in make_response
+    resp = self.representations[mediatype](data, *args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/representations/json.py", line 21, in output_json
+    dumped = dumps(data, **settings) + "\n"
+  File "/usr/lib/python3.6/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.6/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.6/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.6/json/encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'method' is not JSON serializable
+[2019-02-19 15:49:18,590]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 15:58:21,769]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /buku [GET]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 462, in wrapper
+    return self.make_response(data, code, headers=headers)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 491, in make_response
+    resp = self.representations[mediatype](data, *args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/representations/json.py", line 21, in output_json
+    dumped = dumps(data, **settings) + "\n"
+  File "/usr/lib/python3.6/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.6/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.6/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.6/json/encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'method' is not JSON serializable
+[2019-02-19 15:58:21,771]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 15:59:24,476]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": [{"id": 1, "title": "Harry Poster", "isbn": "1-2345-6789", "penulis": "JKR"}, {"id": 1, "title": "Harry Potter #1", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}, {"id": 2, "title": "Harry Potter #2", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}, {"id": 3, "title": "Harry Potter #3", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}]}
+[2019-02-19 16:00:21,072]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": [{"id": 1, "title": "Harry Potter #1", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}, {"id": 2, "title": "Harry Potter #2", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}, {"id": 3, "title": "Harry Potter #3", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}]}
+[2019-02-19 16:00:37,349]{/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /buku/1 [GET]
+Traceback (most recent call last):
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 458, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask/views.py", line 88, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/alphatech/Documents/REST API/Flask Training/rest_training/lib/python3.6/site-packages/flask_restful/__init__.py", line 573, in dispatch_request
+    resp = meth(*args, **kwargs)
+TypeError: get() got an unexpected keyword argument 'id'
+[2019-02-19 16:00:37,351]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"message": "Internal Server Error"}}
+[2019-02-19 16:01:38,137]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"id": 1, "title": "Harry Potter #1", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}}
+[2019-02-19 16:03:45,265]{appbook.py:22} WARNING - REQUEST_LOG	{"request": {}, "response": {"id": 1, "title": "Harry Potter #1", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}}
+[2019-02-19 16:04:37,575]{appbook.py:29} WARNING - REQUEST_LOG	{"request": {"id": 1, "title": "Fantastic Beast", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}, "response": {"id": 1, "title": "Fantastic Beast", "isbn": "1-2345-6789", "penulis": "J.K. Rowling"}}
