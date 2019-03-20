@@ -14,7 +14,7 @@ api = Api(bp_cart)
 
 class CartPembeli(Resource):
 
-    ##### Cart Baru dari Pembeli
+    ##### Cart Baru oleh Pembeli
     @jwt_required
     def post(self):
         pembeli = get_jwt_claims()
