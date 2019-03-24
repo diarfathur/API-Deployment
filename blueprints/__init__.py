@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 app.config['APP_DEBUG'] = True
-#IP SERVER AWS
+#IP SERVER AWS RDS
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://diar:diar0403@ecommerce.cywtsw5bo5gg.ap-southeast-1.rds.amazonaws.com:3306/ecommercedb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
