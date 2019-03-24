@@ -14,7 +14,7 @@ CORS(app)
 
 app.config['APP_DEBUG'] = True
 #IP SERVER AWS
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://diar:diar0403@ecommerce.cywtsw5bo5gg.ap-southeast-1.rds.amazonaws.com:3306/ecommerce'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://diar:diar0403@ecommerce.cywtsw5bo5gg.ap-southeast-1.rds.amazonaws.com:3306/ecommercedb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['JWT_SECRET_KEY'] = 'NSniSjOIJoijSIjaosJOas'
