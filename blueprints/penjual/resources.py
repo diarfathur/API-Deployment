@@ -4,6 +4,7 @@ from flask_restful import Api, Resource, reqparse, marshal
 from . import *
 from blueprints import db
 from blueprints.penjual import Penjual
+from blueprints.produk import Produk
 from flask_jwt_extended import jwt_required, get_jwt_claims
 
 bp_penjual = Blueprint('Penjual', __name__)
@@ -17,6 +18,7 @@ class PenjualResource(Resource):
         parse = reqparse.RequestParser()
         parse.add_argument('username', location='args', required=True)
         parse.add_argument('password', location='args',  required=True)
+        parse.add_argument('shopName', location='args', required=True)
         parse.add_argument('contact', type=int, location='args', required=True)
         parse.add_argument('email', location='args', required=True)
         parse.add_argument('address', location='args', required=True)
@@ -31,7 +33,7 @@ class PenjualResource(Resource):
         
         password = hashlib.md5(args['password'].encode()).hexdigest()
 
-        penjualBaru = Penjual(None, args['username'], password, args['contact'], 'penjual', args['email'], args['address'], args['foto_profil'], args['deskripsi_penjual'])
+        penjualBaru = Penjual(None, args['username'], password, args['shopName'], args['contact'], 'penjual', args['email'], args['address'], args['foto_profil'], args['deskripsi_penjual'])
         db.session.add(penjualBaru)
         db.session.commit()
 
@@ -43,7 +45,9 @@ class PenjualResource(Resource):
     @jwt_required
     def get(self):
         penjual = get_jwt_claims()
-        
+        if penjual['status'] != 'penjual':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
+
         qry = Penjual.query.get(penjual['id'])
         if qry == None:
             return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
@@ -55,17 +59,18 @@ class PenjualResource(Resource):
     @jwt_required
     def put(self):
         penjual = get_jwt_claims()
-        
+        if penjual['status'] != 'penjual':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
+
         qry = Penjual.query.get(penjual['id'])
-        
+        data_penjual = marshal(qry, Penjual.response_field)
         if qry == None:
             return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
-        
-        data_penjual = marshal(qry, Penjual.response_field)
 
         parse =reqparse.RequestParser()
         parse.add_argument('username', location='args', default = data_penjual['username'])
         parse.add_argument('password', location='args', default = data_penjual['password'])
+        parse.add_argument('shopName', location='args', default = data_penjual['shopName'])
         parse.add_argument('contact', location='args', default = data_penjual['contact'])
         parse.add_argument('email', location='args', default = data_penjual['email'])
         parse.add_argument('address', location='args', default = data_penjual['address'])
@@ -74,8 +79,11 @@ class PenjualResource(Resource):
 
         args = parse.parse_args()
 
+        password = hashlib.md5(args['password'].encode()).hexdigest()
+
         qry.username = args['username']
-        qry.password = args['password']
+        qry.password = password
+        qry.shopName = args['shopName']
         qry.contact = args['contact']
         qry.email = args['email']
         qry.address = args['address']
@@ -83,22 +91,34 @@ class PenjualResource(Resource):
         qry.deskripsi_penjual = args['deskripsi_penjual']
         db.session.commit()
 
-        return {'status':'Accepted', 'message': 'DATA_UPDATED', 'seller': marshal(qry, Penjual.response_penjual)}, 202, {'Content-Type': 'application/json'}
+        after = marshal(qry, Penjual.response_penjual)
+
+        return {'status':'Accepted', 'message': 'DATA_UPDATED', 'updated_data': after}, 202, {'Content-Type': 'application/json'}
 
     # Peenjual Menghapus Akunnya Sendiri
     @jwt_required
     def delete(self):
         penjual = get_jwt_claims()
+        if penjual['status'] != 'penjual':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
+       
         qry = Penjual.query.get(penjual['id'])
+        qry_produk = Produk.query.filter_by(penjual_id=penjual['id']).all()
 
         if qry == None:
             return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
 
         data_penjual = marshal(qry, Penjual.response_penjual)
+        
+        produkList = []
+        for produk in qry_produk:
+            temp = marshal(produk, Produk.response_public)
+            produkList.append(temp)
+            db.session.delete(produk)
 
         db.session.delete(qry)
         db.session.commit()
-        return {'status':'OK', 'message': 'DATA_DELETED', 'seller': data_penjual}, 200, {'Content-Type': 'application/json'}
+        return {'status':'OK', 'message': 'DATA_DELETED', 'seller': data_penjual, 'products': produkList}, 200, {'Content-Type': 'application/json'}
 
 
 api.add_resource(PenjualResource, '/penjual')

@@ -17,6 +17,11 @@ class ProdukPenjual(Resource):
     @jwt_required
     def post(self):
         penjual = get_jwt_claims()
+
+        if penjual['status'] != 'penjual':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
+            
+
         parse = reqparse.RequestParser()
         parse.add_argument('namaProduk', location='args', required=True)
         parse.add_argument('qty', location='args', type=int, required=True)
@@ -27,7 +32,7 @@ class ProdukPenjual(Resource):
 
         args = parse.parse_args()
 
-        produk_baru = Produk(None, penjual['id'], penjual['username'], args['namaProduk'], args['qty'], args['harga'], args['kategori'], args['foto_produk'], args['deskripsi_produk'])
+        produk_baru = Produk(None, penjual['id'], penjual['shopName'], args['namaProduk'], args['qty'], args['harga'], args['kategori'], args['foto_produk'], args['deskripsi_produk'])
         db.session.add(produk_baru)
         db.session.commit()
 
@@ -38,6 +43,9 @@ class ProdukPenjual(Resource):
     def get(self, idProduk=None):
         penjual = get_jwt_claims()
         
+        if penjual['status'] != 'penjual':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
+
         if idProduk == None:
             qry = Produk.query.filter_by(penjual_id=penjual['id']).all()
 
@@ -60,6 +68,9 @@ class ProdukPenjual(Resource):
     @jwt_required
     def put(self, idProduk):
         penjual = get_jwt_claims()
+
+        if penjual['status'] != 'penjual':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
         
         qry_produk = Produk.query.filter_by(penjual_id=penjual['id']).filter_by(id=idProduk).first()
 
@@ -93,6 +104,9 @@ class ProdukPenjual(Resource):
     @jwt_required
     def delete(self, idProduk):
         penjual = get_jwt_claims()
+
+        if penjual['status'] != 'penjual':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
 
         qry_produk = Produk.query.filter_by(penjual_id = penjual['id']).filter_by(id = idProduk).first()
 

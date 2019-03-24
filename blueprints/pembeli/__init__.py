@@ -27,7 +27,7 @@ class Pembeli(db.Model):
 
     response_token = {
         'id': fields.Integer,
-        'username': fields.String,
+        'fullName': fields.String,
         'status': fields.String
     }
 

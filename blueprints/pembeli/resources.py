@@ -15,9 +15,11 @@ class PembeliResource(Resource):
         parse = reqparse.RequestParser()
         parse.add_argument('username', location='args', required=True)
         parse.add_argument('password', location='args', required=True)
+        parse.add_argument('fullName', location='args', required=True)
         parse.add_argument('contact', location='args',  required=True)
         parse.add_argument('email', location='args', required=True)
         parse.add_argument('address', location='args', required=True)
+        parse.add_argument('fullName', location='args', required=True)
 
         args = parse.parse_args()
 
@@ -27,7 +29,7 @@ class PembeliResource(Resource):
 
         password = hashlib.md5(args['password'].encode()).hexdigest()
 
-        pembeliBaru = Pembeli(None, args['username'], password, args['contact'], 'pembeli', args['email'], args['address'])
+        pembeliBaru = Pembeli(None, args['username'], password, args['fullName'], args['contact'], 'pembeli', args['email'], args['address'])
         db.session.add(pembeliBaru)
         db.session.commit()
 
@@ -38,9 +40,10 @@ class PembeliResource(Resource):
     @jwt_required
     def get(self):
         pembeli = get_jwt_claims()
-
+        if pembeli['status'] != 'pembeli':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
+        
         qry = Pembeli.query.get(pembeli['id'])
-
         if qry == None:
             return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
         
@@ -50,6 +53,8 @@ class PembeliResource(Resource):
     @jwt_required
     def put(self):
         pembeli = get_jwt_claims()
+        if pembeli['status'] != 'pembeli':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
 
         qry = Pembeli.query.get(pembeli['id'])
 
@@ -61,26 +66,32 @@ class PembeliResource(Resource):
         parse =reqparse.RequestParser()
         parse.add_argument('username', location='args', default = data_pembeli['username'])
         parse.add_argument('password', location='args', default = data_pembeli['password'])
+        parse.add_argument('fullName', location='args', default = data_pembeli['fullName'])
         parse.add_argument('contact', location='args', default = data_pembeli['contact'])
         parse.add_argument('email', location='args', default = data_pembeli['email'])
         parse.add_argument('address', location='args', default = data_pembeli['address'])
 
         args = parse.parse_args()
 
+        password = hashlib.md5(args['password'].encode()).hexdigest()
+
         qry.username = args['username']
-        qry.password = args['password']
+        qry.password = password
+        qry.fullName = args['fullName']
         qry.contact = args['contact']
         qry.email = args['email']
         qry.address = args['address']
         db.session.commit()
 
-        return {'status':'Accepted', 'message': 'DATA_UPDATED', 'buyer': marshal(qry, Pembeli.response_pembeli)}, 202, {'Content-Type': 'application/json'}
+        return {'status':'Accepted', 'message': 'DATA_UPDATED', 'updated_data': marshal(qry, Pembeli.response_pembeli)}, 202, {'Content-Type': 'application/json'}
 
     @jwt_required
     def delete(self):
         pembeli = get_jwt_claims()
-        qry = Pembeli.query.get(pembeli['id'])
+        if pembeli['status'] != 'pembeli':
+            return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
 
+        qry = Pembeli.query.get(pembeli['id'])
         if qry == None:
             return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
 

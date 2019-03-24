@@ -7,7 +7,7 @@ class Penjual(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True) # unique=True
     username = db.Column(db.String(20), unique = True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    fullName = db.Column(db.String(50), nullable=False)
+    shopName = db.Column(db.String(50), nullable=False)
     contact = db.Column(db.String(15), nullable=False)
     status = db.Column(db.String(7), nullable=False)
     email = db.Column(db.String(50), nullable=False)
@@ -19,7 +19,7 @@ class Penjual(db.Model):
         'id': fields.Integer,
         'username': fields.String,
         'password': fields.String,
-        'fullName': fields.String,
+        'shopName': fields.String,
         'contact': fields.String,
         'status': fields.String,
         'email': fields.String,
@@ -30,26 +30,25 @@ class Penjual(db.Model):
 
     response_token = {
         'id': fields.Integer,
-        'username': fields.String,
+        'shopName': fields.String,
         'status': fields.String
     }
 
     response_penjual = {
         'username': fields.String,
-        'fullName': fields.String,
+        'shopName': fields.String,
         'contact': fields.String,
-        'status': fields.String,
         'email': fields.String,
         'address': fields.String,
         'foto_profil': fields.String,
         'deskripsi_penjual': fields.String
     }
 
-    def __init__(self, id, username, password, fullName, contact, status, email, address, foto_profil, deskripsi_penjual): #, address, foto_profil, deskripsi_penjual):
+    def __init__(self, id, username, password, shopName, contact, status, email, address, foto_profil, deskripsi_penjual): #, address, foto_profil, deskripsi_penjual):
         self.id = id
         self.username = username
         self.password = password
-        self.fullName = fullName
+        self.shopName = shopName
         self.contact = contact
         self.status = status
         self.email = email

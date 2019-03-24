@@ -13,6 +13,7 @@ class Produk(db.Model):
     kategori = db.Column(db.String(50), nullable=False)
     foto_produk = db.Column(db.String(500), nullable=False)
     deskripsi_produk = db.Column(db.Text, nullable=False)
+    # status = db.Column(db.)
     
     
     response_field = {

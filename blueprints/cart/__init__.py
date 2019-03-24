@@ -5,6 +5,7 @@ class Cart(db.Model):
 
     __tablename__ = "Cart"
     id = db.Column(db.Integer, primary_key = True, autoincrement = True) # unique=True
+    idTransaksi = db.Column(db.Integer, nullable=False)
     pembeli_id = db.Column(db.Integer, nullable=False)
     namaPembeli = db.Column(db.String(255), nullable=False)
     produk_id = db.Column(db.Integer, nullable=False)
@@ -12,11 +13,11 @@ class Cart(db.Model):
     qty = db.Column(db.Integer, nullable=False)
     totalHarga = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(10), nullable=False)
-    idTransaction = db.Column(db.Integer, nullable=False)
     
 
     response_field = {
         'id': fields.Integer,
+        'idTransaksi': fields.Integer,
         'pembeli_id': fields.Integer,
         'namaPembeli': fields.String,
         'produk_id': fields.Integer,
@@ -24,19 +25,25 @@ class Cart(db.Model):
         'qty': fields.Integer,
         'totalHarga': fields.Integer,
         'status': fields.String,
-        'idTransaction': fields.Integer
     }
 
     response_cart = {
+        'idTransaksi': fields.Integer,
+        'namaProduk': fields.String,
+        'qty': fields.Integer,
+        'totalHarga': fields.Integer,
+        'status': fields.String
+    }
+
+    response_cartPenjual = {
         'namaPembeli': fields.String,
         'namaProduk': fields.String,
         'qty': fields.Integer,
         'totalHarga': fields.Integer,
-        'status': fields.String,
-        'idTransaction': fields.Integer
+        'status': fields.String
     }
 
-    def __init__(self, id, pembeli_id, namaPembeli, produk_id, namaProduk, qty, totalHarga, status, idTransaction):
+    def __init__(self, id, pembeli_id, namaPembeli, produk_id, namaProduk, qty, totalHarga, status, idTransaksi):
         self.id = id
         self.pembeli_id = pembeli_id
         self.namaPembeli = namaPembeli
@@ -45,7 +52,7 @@ class Cart(db.Model):
         self.qty = qty
         self.totalHarga = totalHarga
         self.status = status
-        self.idTransaction = idTransaction
+        self.idTransaksi = idTransaksi
         
     
     def __repr__(self): # return dari repr harus string

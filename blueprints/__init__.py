@@ -6,13 +6,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from datetime import timedelta
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['APP_DEBUG'] = True
 #IP SERVER AWS
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://diar:diar0403@172.31.34.65:3306/ecommerce'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://diar:diar0403@ecommerce.cywtsw5bo5gg.ap-southeast-1.rds.amazonaws.com:3306/ecommerce'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['JWT_SECRET_KEY'] = 'NSniSjOIJoijSIjaosJOas'
