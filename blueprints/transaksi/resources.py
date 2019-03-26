@@ -28,7 +28,7 @@ class TransaksiPembeli(Resource):
 
         else:
             for temp in qry_cart.all():
-                totalPembayaran = totalPembayaran + temp.totalHarga
+                totalPembayaran += temp.totalHarga
             
             tr = Transaksi(None, pembeli['id'], pembeli['fullName'], totalPembayaran)
             db.session.add(tr)
@@ -73,9 +73,15 @@ class TransaksiPembeli(Resource):
         
         else:
             qry_transaksi = Transaksi.query.filter_by(pembeli_id=pembeli['id']).filter_by(id=idTransaksi).first()
+            qry_cart = Cart.query.filter_by(idTransaksi=idTransaksi).all()
+            cartList = []
+            for cart in qry_cart:
+                tempCart = marshal(cart, Cart.response_cart)
+                cartList.append(tempCart)
+
             if qry_transaksi is not None:
-                temp = marshal(qry_transaksi, Transaksi.response_field)
-                return {'status':'OK', 'message':'Your Transaction', 'transaction': temp}, 200, {'Content-Type': 'application/jason'}
+                transaksi = marshal(qry_transaksi, Transaksi.response_field)
+                return {'status':'OK', 'message':'Your Transaction', 'transaction': transaksi, 'cartList': cartList}, 200, {'Content-Type': 'application/jason'}
 
             else:
                 return {'status':'Not Found!', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}

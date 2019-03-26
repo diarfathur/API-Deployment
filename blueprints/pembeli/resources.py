@@ -13,13 +13,13 @@ api = Api(bp_pembeli)
 class PembeliResource(Resource):
     def post(self):
         parse = reqparse.RequestParser()
-        parse.add_argument('username', location='args', required=True)
-        parse.add_argument('password', location='args', required=True)
-        parse.add_argument('fullName', location='args', required=True)
-        parse.add_argument('contact', location='args',  required=True)
-        parse.add_argument('email', location='args', required=True)
-        parse.add_argument('address', location='args', required=True)
-        parse.add_argument('fullName', location='args', required=True)
+        parse.add_argument('username', location='json', required=True)
+        parse.add_argument('password', location='json', required=True)
+        parse.add_argument('fullName', location='json', required=True)
+        parse.add_argument('contact', location='json',  required=True)
+        parse.add_argument('email', location='json', required=True)
+        parse.add_argument('address', location='json', required=True)
+        parse.add_argument('fullName', location='json', required=True)
 
         args = parse.parse_args()
 
@@ -64,12 +64,12 @@ class PembeliResource(Resource):
         data_pembeli = marshal(qry, Pembeli.response_field)
 
         parse =reqparse.RequestParser()
-        parse.add_argument('username', location='args', default = data_pembeli['username'])
-        parse.add_argument('password', location='args', default = data_pembeli['password'])
-        parse.add_argument('fullName', location='args', default = data_pembeli['fullName'])
-        parse.add_argument('contact', location='args', default = data_pembeli['contact'])
-        parse.add_argument('email', location='args', default = data_pembeli['email'])
-        parse.add_argument('address', location='args', default = data_pembeli['address'])
+        parse.add_argument('username', location='json', default = data_pembeli['username'])
+        parse.add_argument('password', location='json', default = data_pembeli['password'])
+        parse.add_argument('fullName', location='json', default = data_pembeli['fullName'])
+        parse.add_argument('contact', location='json', default = data_pembeli['contact'])
+        parse.add_argument('email', location='json', default = data_pembeli['email'])
+        parse.add_argument('address', location='json', default = data_pembeli['address'])
 
         args = parse.parse_args()
 

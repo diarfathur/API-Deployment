@@ -32,10 +32,10 @@ class Pembeli(db.Model):
     }
 
     response_pembeli = {
+        'id': fields.Integer,
         'username': fields.String,
         'fullName': fields.String,
         'contact': fields.String,
-        'status': fields.String,
         'email': fields.String,
         'address': fields.String
     }

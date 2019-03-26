@@ -35,8 +35,10 @@ class Penjual(db.Model):
     }
 
     response_penjual = {
+        'id': fields.Integer,
         'username': fields.String,
         'shopName': fields.String,
+        'status': fields.String,
         'contact': fields.String,
         'email': fields.String,
         'address': fields.String,

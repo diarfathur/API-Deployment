@@ -16,14 +16,14 @@ class PenjualResource(Resource):
     # Buat Akun Penjual Baru
     def post(self):
         parse = reqparse.RequestParser()
-        parse.add_argument('username', location='args', required=True)
-        parse.add_argument('password', location='args',  required=True)
-        parse.add_argument('shopName', location='args', required=True)
-        parse.add_argument('contact', type=int, location='args', required=True)
-        parse.add_argument('email', location='args', required=True)
-        parse.add_argument('address', location='args', required=True)
-        parse.add_argument('foto_profil', location='args')
-        parse.add_argument('deskripsi_penjual', location='args')
+        parse.add_argument('username', location='json', required=True)
+        parse.add_argument('password', location='json',  required=True)
+        parse.add_argument('shopName', location='json', required=True)
+        parse.add_argument('contact', location='json', required=True)
+        parse.add_argument('email', location='json', required=True)
+        parse.add_argument('address', location='json', required=True)
+        parse.add_argument('foto_profil', location='json')
+        parse.add_argument('deskripsi_penjual', location='json')
 
         args = parse.parse_args()
 
@@ -64,22 +64,27 @@ class PenjualResource(Resource):
 
         qry = Penjual.query.get(penjual['id'])
         data_penjual = marshal(qry, Penjual.response_field)
+        qry_produk = Produk.query.filter_by(penjual_id=penjual['id']).all()
+
         if qry == None:
             return {'status':'Not Found', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
 
         parse =reqparse.RequestParser()
-        parse.add_argument('username', location='args', default = data_penjual['username'])
-        parse.add_argument('password', location='args', default = data_penjual['password'])
-        parse.add_argument('shopName', location='args', default = data_penjual['shopName'])
-        parse.add_argument('contact', location='args', default = data_penjual['contact'])
-        parse.add_argument('email', location='args', default = data_penjual['email'])
-        parse.add_argument('address', location='args', default = data_penjual['address'])
-        parse.add_argument('foto_profil', location='args', default = data_penjual['foto_profil'])
-        parse.add_argument('deskripsi_penjual', location='args', default = data_penjual['deskripsi_penjual'])
+        parse.add_argument('username', location='json', default = data_penjual['username'])
+        parse.add_argument('password', location='json', default = data_penjual['password'])
+        parse.add_argument('shopName', location='json', default = data_penjual['shopName'])
+        parse.add_argument('contact', location='json', default = data_penjual['contact'])
+        parse.add_argument('email', location='json', default = data_penjual['email'])
+        parse.add_argument('address', location='json', default = data_penjual['address'])
+        parse.add_argument('foto_profil', location='json', default = data_penjual['foto_profil'])
+        parse.add_argument('deskripsi_penjual', location='json', default = data_penjual['deskripsi_penjual'])
 
         args = parse.parse_args()
 
         password = hashlib.md5(args['password'].encode()).hexdigest()
+
+        for each in qry_produk:
+            each.penjual = args['shopName']
 
         qry.username = args['username']
         qry.password = password

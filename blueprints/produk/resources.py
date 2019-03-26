@@ -23,12 +23,12 @@ class ProdukPenjual(Resource):
             
 
         parse = reqparse.RequestParser()
-        parse.add_argument('namaProduk', location='args', required=True)
-        parse.add_argument('qty', location='args', type=int, required=True)
-        parse.add_argument('harga', location='args', type=int, required=True)
-        parse.add_argument('kategori', location='args',  required=True)
-        parse.add_argument('foto_produk', location='args',  required=True)
-        parse.add_argument('deskripsi_produk', location='args',  required=True)
+        parse.add_argument('namaProduk', location='json', required=True)
+        parse.add_argument('qty', location='json', type=int, required=True)
+        parse.add_argument('harga', location='json', type=int, required=True)
+        parse.add_argument('kategori', location='json',  required=True)
+        parse.add_argument('foto_produk', location='json',  required=True)
+        parse.add_argument('deskripsi_produk', location='json',  required=True)
 
         args = parse.parse_args()
 
@@ -59,7 +59,7 @@ class ProdukPenjual(Resource):
         else:
             qry = Produk.query.filter_by(penjual_id=penjual['id']).filter_by(id=idProduk).first()
             if qry is not None:
-                return {'status':'OK', 'message':'Get a product', 'product': marshal(qry, Produk.response_field)}, 200, {'Content-Type': 'application/jason'}
+                return {'status':'OK', 'message':'Get a product', 'productDetail': marshal(qry, Produk.response_field)}, 200, {'Content-Type': 'application/jason'}
             else:
                 return {'status':'Not Found!', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
 
@@ -81,12 +81,12 @@ class ProdukPenjual(Resource):
             produk = marshal(qry_produk, Produk.response_field)
 
             parse = reqparse.RequestParser()
-            parse.add_argument('namaProduk', location='args', default = produk['namaProduk'])
-            parse.add_argument('qty', location='args',  default = produk['qty'])
-            parse.add_argument('harga', location='args',  default = produk['harga'])
-            parse.add_argument('kategori', location='args',  default = produk['kategori'])
-            parse.add_argument('foto_produk', location='args',  default = produk['foto_produk'])
-            parse.add_argument('deskripsi_produk', location='args',  default = produk['deskripsi_produk'])
+            parse.add_argument('namaProduk', location='json', default = produk['namaProduk'])
+            parse.add_argument('qty', location='json', type=int, default = produk['qty'])
+            parse.add_argument('harga', location='json', type=int, default = produk['harga'])
+            parse.add_argument('kategori', location='json',  default = produk['kategori'])
+            parse.add_argument('foto_produk', location='json',  default = produk['foto_produk'])
+            parse.add_argument('deskripsi_produk', location='json',  default = produk['deskripsi_produk'])
 
             args = parse.parse_args()
 
@@ -132,32 +132,21 @@ class Public(Resource):
             parse = reqparse.RequestParser()
             parse.add_argument('p', type=int, location='args', default=1)
             parse.add_argument('rp', type=int, location='args', default=12)
-            # parse.add_argument('search', location='args')
             args = parse.parse_args()
 
             offset = (args['p'] * args['rp']) - args['rp']
 
             qry_produk = Produk.query
-            # if args['search'] is not None:
-            #     qry_produk = qry_produk.filter(Produk.penjual.like("%"+args['search']+"%"))
-            #     if qry_produk.first() is None:
-            #         qry_produk = Produk.query.filter(Produk.namaProduk.like("%"+args['search']+"%"))
-            #         if qry_produk.first() is None:
-            #             qry_produk = Produk.query.filter(Produk.kategori.like("%"+args['search']+"%"))
-            #             if qry_produk.first() is None:
-            #                 qry_produk = Produk.query.filter(Produk.deskripsi_produk.like("%"+args['search']+"%"))
-            #                 if qry_produk.first() is None:
-            #                     return {'status': 'NOT_FOUND','message':'item not found'},404, { 'Content-Type': 'application/json' }
             
             rows = []
             for row in qry_produk.limit(args['rp']).offset(offset).all():
                 rows.append(marshal(row, Produk.response_field))
             return {'status':'OK', 'message': 'All products', 'halaman': args['p'], 'products': rows}, 200, {'Content-Type': 'application/json'}
-# {}
         else:
             qry_produk = Produk.query.get(idProduk)
+            
             if qry_produk is not None:
-                return {'status':'OK', 'message':'Get a product', 'product': marshal(qry, Produk.response_public)}, 200, {'Content-Type': 'application/jason'}
+                return {'status':'OK', 'message':'Get a product', 'product': marshal(qry_produk, Produk.response_public)}, 200, {'Content-Type': 'application/jason'}
 
             else:
                 return {'status':'Not Found!', 'message': 'Product Not Found!'}, 404, {'Content-Type': 'application/json'}

@@ -23,8 +23,8 @@ class CartPembeli(Resource):
             return {"status": "Unauthorized", "message": "Access Denied"}, 401, {'Content-Type': 'application/json'}
 
         parse = reqparse.RequestParser()
-        parse.add_argument('produk_id', location='args', required=True)
-        parse.add_argument('qty', location='args', type=int,  required=True)
+        parse.add_argument('produk_id', location='json', required=True)
+        parse.add_argument('qty', location='json', type=int,  required=True)
         
         args = parse.parse_args()
         qry_produk = Produk.query.get(args['produk_id'])
@@ -39,7 +39,7 @@ class CartPembeli(Resource):
             idTransaksi = 0
             sisa_produk = int(qry_produk.qty - args['qty'])
             
-            cart_baru = Cart(None, pembeli['id'], pembeli['fullName'], produk['id'], produk['namaProduk'], args['qty'],  totalHarga, status, idTransaksi)
+            cart_baru = Cart(None, pembeli['id'], pembeli['fullName'], produk['id'], produk['namaProduk'], produk['foto_produk'], args['qty'], produk['harga'], totalHarga, status, idTransaksi)
             db.session.add(cart_baru)
             qry_produk.qty = sisa_produk
             db.session.commit()               
@@ -57,17 +57,16 @@ class CartPembeli(Resource):
             qry_cart = Cart.query.filter_by(pembeli_id=pembeli['id']).filter_by(status='unpaid')
 
             rows = []
-            count = 0
+            totalPayment = 0
             for row in qry_cart.all():
-                count += 1
+                totalPayment += row.totalHarga
                 temp = marshal(row, Cart.response_cart)
                 rows.append(temp)
             
             if qry_cart.first() is None:
                 return {'status':'Not Found!', 'message': "You don't have any cart yet"}, 404, {'Content-Type': 'application/json'}
             else:
-                return {'status':'OK', 'message':'Get all your cart', 'unpaid': count, 'carts': rows}, 200, {'Content-Type': 'application/jason'}
-        
+                return {'status':'OK', 'message':'Get all your cart', 'totalPayment': totalPayment, 'carts': rows}, 200, {'Content-Type': 'application/jason'}
         else:
             qry_cart = Cart.query.filter_by(pembeli_id=pembeli['id']).filter_by(id=idCart).first()
             if qry_cart is not None:
@@ -76,7 +75,7 @@ class CartPembeli(Resource):
 
             else:
                 return {'status':'Not Found!', 'message': 'DATA_NOT_FOUND'}, 404, {'Content-Type': 'application/json'}
-   
+
     ##### HAPUS Cart oleh Penjual
     @jwt_required
     def delete(self, idCart):
@@ -88,10 +87,11 @@ class CartPembeli(Resource):
         cart = marshal(qry_cart, Cart.response_field)
         disp = marshal(qry_cart, Cart.response_cart)
         qry_produk = Produk.query.get(cart['produk_id'])
+
         produk = marshal(qry_produk, Produk.response_field)
 
         if qry_cart is not None:
-            stock = (qry_produk.qty + qry_cart.qty)
+            stock = (qry_produk.qty + cart['qty'])
             qry_produk.qty = stock
             db.session.delete(qry_cart)
             db.session.commit()

@@ -29,6 +29,7 @@ class Produk(db.Model):
     }
 
     response_public = {
+        'id': fields.Integer,
         'penjual': fields.String,
         'namaProduk': fields.String,
         'qty': fields.Integer,

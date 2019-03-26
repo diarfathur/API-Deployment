@@ -11,10 +11,10 @@ bp_login = Blueprint('login', __name__)
 api = Api(bp_login)
 
 class LoginPenjual(Resource):
-    def get(self):
+    def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('username', location = 'args', required = True)
-        parser.add_argument('password', location = 'args', required = True)
+        parser.add_argument('username', location = 'json', required = True)
+        parser.add_argument('password', location = 'json', required = True)
         args = parser.parse_args()
 
         password = hashlib.md5(args['password'].encode()).hexdigest()
@@ -24,20 +24,19 @@ class LoginPenjual(Resource):
 
         if qry is not None:
             token = create_access_token(identity = marshal(qry, Penjual.response_token))
+            statusUser = qry.status
         else:
             return {'status': 'UNAUTORIZED', 'message': 'Invalid username or password'}, 401
-        return {'status': 'Success', 'message': 'You got authorization for your account', 'token' : token}, 200, {'Content-Type': 'application/json'}
+        return {'status': 'Success', 'message': 'You got authorization for your account', 'statusUser': statusUser, 'token' : token}, 200, {'Content-Type': 'application/json'}
 
 api.add_resource(LoginPenjual, '/login/penjual')
 
 
-
-
 class LoginPembeli(Resource):
-    def get(self):
+    def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('username', location = 'args', required = True)
-        parser.add_argument('password', location = 'args', required = True)
+        parser.add_argument('username', location = 'json', required = True)
+        parser.add_argument('password', location = 'json', required = True)
         args = parser.parse_args()
 
         password = hashlib.md5(args['password'].encode()).hexdigest()
@@ -46,8 +45,9 @@ class LoginPembeli(Resource):
 
         if qry is not None:
             token = create_access_token(identity = marshal(qry, Pembeli.response_token))
+            statusUser = qry.status
         else:
             return {'status': 'UNAUTORIZED', 'message': 'Invalid username or password'}, 401
-        return {'status': 'Success', 'message': 'You got authorization for your account', 'token' : token}, 200, {'Content-Type': 'application/json'}
+        return {'status': 'Success', 'message': 'You got authorization for your account', 'statusUser': statusUser, 'token' : token}, 200, {'Content-Type': 'application/json'}
 
 api.add_resource(LoginPembeli, '/login/pembeli')
