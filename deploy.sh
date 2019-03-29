@@ -11,4 +11,4 @@ sudo docker stop ecommerceApi
 sudo docker rm ecommerceApi
 sudo docker rmi diarfathur/ecommerce
 sudo docker run -d --name ecommerceApi -p 5000:5000 diarfathur/ecommerce:latest
-lcp --proxyUrl http://172.31.34.65:5000
+lcp --proxyUrl http://localhost:5000
